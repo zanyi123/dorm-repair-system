@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- ⚠️ 只保留类型别名，删除 <mappers> 配置 -->
+    <typeAliases>
+        <package name="org.example.entity"/>
+    </typeAliases>
+
+    <!-- ⚠️ 删除 <environments> 配置，由 Spring 管理 -->
+    <!-- ⚠️ 删除 <mappers> 配置，由 @MapperScan 管理 -->
+</configuration>
