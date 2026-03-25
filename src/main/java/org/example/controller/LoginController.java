@@ -1,4 +1,4 @@
-package org.example.controller;
+/*package org.example.controller;
 
 import org.example.entity.User;
 import org.example.service.UserService;
@@ -23,9 +23,9 @@ public class LoginController {
         this.userService = userService;
         this.repairService = repairService;
     }
-    /**
-     * 【功能 1】显示系统主菜单
-     */
+
+     //【功能 1】显示系统主菜单
+
     public void showMainMenu() {
         System.out.println("\n=================================");
         System.out.println("   🏠 宿舍报修管理系统");
@@ -56,9 +56,9 @@ public class LoginController {
         }
     }
 
-    /**
-     * 【功能 2】处理用户注册
-     */
+
+     //【功能 2】处理用户注册
+
     private void doRegister() {
         System.out.println("\n===== 用户注册 =====");
 
@@ -99,9 +99,9 @@ public class LoginController {
         }
     }
 
-    /**
-     * 【功能 3】处理用户登录
-     */
+
+      //【功能 3】处理用户登录
+
     private void doLogin() {
         System.out.println("\n===== 用户登录 =====");
 
@@ -149,3 +149,5 @@ public class LoginController {
         }
     }
 }
+
+*/

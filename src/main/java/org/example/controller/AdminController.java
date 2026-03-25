@@ -1,4 +1,4 @@
-package org.example.controller;
+/*package org.example.controller;
 
 import org.example.common.Constants;
 import org.example.entity.User;
@@ -20,10 +20,9 @@ public class AdminController {
     public AdminController(User user, RepairService repairService) {
         this.currentUser = user;
         this.repairService = repairService;
-    }
-    /**
-     * 【功能 1】显示管理员主菜单
-     */
+    }*/
+
+/*
     public void showMenu() {
 
         System.out.println("\n===== 欢迎管理员：" + currentUser.getName() + " =====");
@@ -63,9 +62,9 @@ public class AdminController {
         }
     }
 
-    /**
-     * 【功能 2】查看所有报修单
-     */
+
+     //【功能 2】查看所有报修单
+
     private void viewAllOrders() {
         System.out.println("\n【所有报修单列表】");
 
@@ -108,9 +107,8 @@ public class AdminController {
         }
     }
 
-    /**
-     * 【功能 3】更新报修单状态
-     */
+    //【功能 3】更新报修单状态
+
     private void updateOrderStatus() {
         System.out.println("\n【更新报修单状态】");
 
@@ -142,11 +140,9 @@ public class AdminController {
         }
     }
 
-    /**
-     * 【功能 4】删除报修单
-     *
-     *
-     */
+
+     //【功能 4】删除报修单
+
     private void deleteOrder() {
         System.out.println("\n【删除报修单】");
 
@@ -178,9 +174,9 @@ public class AdminController {
         }
     }
 
-    /**
-     * 【功能 5】状态码转文字
-     */
+
+     // 【功能 5】状态码转文字
+
     private String getStatusText(int status) {
             if (status == Constants.STATUS_PENDING) {
                 return "待处理";
@@ -194,3 +190,39 @@ public class AdminController {
         }
     }
 
+*/
+
+package org.example.controller;
+
+import org.example.entity.RepairOrder;
+import org.example.service.RepairService;
+import org.example.common.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/admin")
+@CrossOrigin(origins = "*")
+public class AdminController {
+
+    @Autowired
+    private RepairService repairService;
+
+    @GetMapping("/orders")
+    public Result<List<RepairOrder>> getAllOrders() {
+        return repairService.getAllOrders();
+    }
+
+    @PutMapping("/orders/{id}")
+    public Result<Boolean> updateStatus(@PathVariable Integer id,
+                                        @RequestParam Integer status) {
+        return repairService.updateStatus(id, status);
+    }
+
+    @DeleteMapping("/orders/{id}")
+    public Result<Boolean> deleteOrder(@PathVariable Integer id) {
+        return repairService.deleteOrder(id);
+    }
+}

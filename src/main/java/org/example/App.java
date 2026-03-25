@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.controller.LoginController;
+/*import org.example.controller.LoginController;
 import org.example.service.UserService;
 import org.example.service.RepairService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -24,5 +24,19 @@ public class App {
         loginController.showMainMenu();
 
         context.close();
+    }
+}*/
+
+
+
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication  // ← ⚠️ 必须加这个
+public class App {
+    public static void main(String[] args) {
+        // ← ⚠️ 就这一行，删除所有控制台代码
+        SpringApplication.run(App.class, args);
     }
 }

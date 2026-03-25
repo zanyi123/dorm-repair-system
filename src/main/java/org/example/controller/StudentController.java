@@ -1,4 +1,4 @@
-package org.example.controller;
+/*package org.example.controller;
 
 import org.example.common.Constants;
 import org.example.entity.User;
@@ -228,4 +228,47 @@ public class StudentController {
         }
     }
 
+}*/
+
+
+package org.example.controller;
+
+import org.example.entity.RepairOrder;
+import org.example.service.RepairService;
+import org.example.common.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/student")
+@CrossOrigin(origins = "*")
+public class StudentController {
+
+    @Autowired
+    private RepairService repairService;
+
+    @GetMapping("/orders")
+    public Result<List<RepairOrder>> getMyOrders(@RequestParam Integer studentId) {
+        return repairService.getMyOrders(studentId);
+    }
+
+    @PostMapping("/orders")
+    public Result<Boolean> createOrder(@RequestBody RepairOrder order) {
+        return repairService.createOrder(
+                order.getStudentId(),
+                order.getBuilding(),
+                order.getRoom(),
+                order.getDeviceType(),
+                order.getDescription()
+        );
+    }
+
+    @PutMapping("/dorm")
+    public Result<Boolean> bindDorm(@RequestParam Integer userId,
+                                    @RequestParam String building,
+                                    @RequestParam String room) {
+        return repairService.bindDorm(userId, building, room);
+    }
 }

@@ -1,4 +1,4 @@
-package org.example.service;
+/*package org.example.service;
 
 import org.example.entity.User;
 import org.example.mapper.UserMapper;
@@ -16,9 +16,9 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    /**
-     * 【功能 1】用户注册
-     */
+
+      //【功能 1】用户注册
+
     public Result<Boolean> register(String account, String password, int role) {
 
         // ==================== 正则校验 ====================
@@ -61,9 +61,9 @@ public class UserService {
         }
     }
 
-    /**
-     * 【功能 2】用户登录
-     */
+
+     // 【功能 2】用户登录
+
     public Result<User> login(String account, String password) {
         try {
             LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
@@ -87,9 +87,9 @@ public class UserService {
         }
     }
 
-    /**
-     * 【功能 3】更新用户信息
-     */
+
+      //【功能 3】更新用户信息
+
     public  Result<Boolean> updateUser(User user) {
         try {
             int rows = userMapper.updateById(user);
@@ -105,9 +105,9 @@ public class UserService {
         }
     }
 
-    /**
-     * 【功能 4】修改密码
-     */
+
+     //【功能 4】修改密码
+
     public Result<Boolean> updatePassword(String account, String oldPassword, String newPassword) {
         try {
             // 步骤 1：根据账号查询用户
@@ -138,6 +138,100 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
             return Result.fail("密码修改失败：" + e.getMessage());
+        }
+    }
+}
+*/
+
+
+package org.example.service;
+
+import org.example.entity.User;
+import org.example.mapper.UserMapper;
+import org.example.common.Constants;
+import org.example.common.MD5Util;
+import org.example.common.Result;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public Result<User> login(String account, String password) {
+        try {
+            LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(User::getAccount, account);
+            User user = userMapper.selectOne(wrapper);
+
+            if (user == null) {
+                return Result.fail("登录失败：账号不存在！");
+            }
+
+            String inputPwdEncoded = MD5Util.encrypt(password);
+            if (!inputPwdEncoded.equals(user.getPassword())) {
+                return Result.fail("登录失败，输入密码错误，请重新输入！");
+            }
+
+            return Result.success(user, "登录成功！欢迎 " + user.getAccount());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("登录失败：" + e.getMessage());
+        }
+    }
+
+    public Result<Boolean> register(String account, String password, int role) {
+        try {
+            if (role == Constants.ROLE_STUDENT) {
+                if (!account.matches(Constants.REGEX_STUDENT)) {
+                    return Result.fail("账号格式错误");
+                }
+            } else if (role == Constants.ROLE_ADMIN) {
+                if (!account.matches(Constants.REGEX_ADMIN)) {
+                    return Result.fail("账号格式错误");
+                }
+            }
+
+            LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(User::getAccount, account);
+            User existUser = userMapper.selectOne(wrapper);
+
+            if (existUser != null) {
+                return Result.fail("注册失败：该账号已被注册！");
+            }
+
+            User newUser = new User();
+            newUser.setAccount(account);
+            newUser.setPassword(MD5Util.encrypt(password));
+            newUser.setRole(role);
+
+            int rows = userMapper.insert(newUser);
+
+            if (rows > 0) {
+                return Result.success(true, "注册成功！");
+            } else {
+                return Result.fail("注册失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("注册失败：" + e.getMessage());
+        }
+    }
+
+    public Result<Boolean> updateUser(User user) {
+        try {
+            int rows = userMapper.updateById(user);
+            if (rows > 0) {
+                return Result.success(true, "更新成功！");
+            } else {
+                return Result.fail("更新失败！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("更新失败：" + e.getMessage());
         }
     }
 }

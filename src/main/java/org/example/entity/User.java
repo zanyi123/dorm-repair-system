@@ -18,6 +18,7 @@ public class User {
     private String dormRoom;
     private LocalDateTime createTime;
 
+
     // === Setter 方法 (不用改，保持原样) ===
     public void setId(Integer id) { this.id = id; }
     public void setAccount(String account) { this.account = account; }
@@ -27,6 +28,7 @@ public class User {
     public void setDormBuilding(String dormBuilding) { this.dormBuilding = dormBuilding; }
     public void setDormRoom(String dormRoom) { this.dormRoom = dormRoom; }
     public void setCreateTime(LocalDateTime createTime) { this.createTime = createTime; }
+
 
     // === Getter 方法 ===
 
@@ -61,6 +63,8 @@ public class User {
     public LocalDateTime getCreateTime() {      // 🔴 删掉 (LocalDateTime createTime)
         return createTime;
     }
+
+
 
     // === toString 方法 (不用改) ===
     @Override
