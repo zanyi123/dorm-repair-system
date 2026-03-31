@@ -210,17 +210,23 @@ public class AdminController {
     @Autowired
     private RepairService repairService;
 
+    // 查询全部报修单（可带状态筛选）
     @GetMapping("/orders")
-    public Result<List<RepairOrder>> getAllOrders() {
+    public Result<List<RepairOrder>> getAllOrders(@RequestParam(required = false) Integer status) {
+        if (status != null) {
+            return repairService.getOrdersByStatus(status);
+        }
         return repairService.getAllOrders();
     }
 
-    @PutMapping("/orders/{id}")
+    // 修改报修单状态
+    @PutMapping("/orders/{id}/status")
     public Result<Boolean> updateStatus(@PathVariable Integer id,
                                         @RequestParam Integer status) {
         return repairService.updateStatus(id, status);
     }
 
+    // 删除报修单
     @DeleteMapping("/orders/{id}")
     public Result<Boolean> deleteOrder(@PathVariable Integer id) {
         return repairService.deleteOrder(id);
